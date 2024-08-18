@@ -63,23 +63,21 @@ function M.openRepl(user_opts)
     doRefresh()
 end
 
-local function replCmd(vert)
-    return function(cmd)
-        local size = nil
-        if cmd.count ~= nil and cmd.count ~= 0 then
-            size = cmd.count
-        end
-        local lang = nil
-        if cmd.args ~= nil and cmd.args ~= "" then
-            lang = cmd.args
-        end
-        M.openRepl { vertical = vert, size = size, lang = lang }
+local function replCmd(cmd)
+    local size = nil
+    if cmd.count ~= nil and cmd.count ~= 0 then
+        size = cmd.count
     end
+    local lang = nil
+    if cmd.args ~= nil and cmd.args ~= "" then
+        lang = cmd.args
+    end
+    M.openRepl { vertical = M.vertical ~= cmd.bang, size = size, lang = lang }
 end
 
 ---@class Options
 ---@field configs LangConfig[]?
----@field vertical boolean[]?
+---@field vertical boolean?
 ---@field vsize integer?
 ---@field hsize integer?
 
@@ -92,8 +90,7 @@ function M.setup(user_opts)
     M.hsize = opts.hsize or 15
     M.au = vim.api.nvim_create_augroup("repl-nvim", { clear = true })
 
-    vim.api.nvim_create_user_command("ReplOpen", replCmd(false), { count = 0, nargs = '?' })
-    vim.api.nvim_create_user_command("ReplVOpen", replCmd(true), { count = 0, nargs = '?' })
+    vim.api.nvim_create_user_command("ReplOpen", replCmd, { count = 0, nargs = '?', bang = true })
 end
 
 return M
