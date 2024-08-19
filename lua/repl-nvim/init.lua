@@ -7,7 +7,8 @@ local M = {}
 ---@type table<string, LangConfig>
 M.lang_configs = {
     lua = { open = { "lua" }, refresh = [[this = loadfile("%")()]] },
-    haskell = { open = { "stack", "repl", "--ghc-options", "-Wno-type-defaults" }, refresh = [[:reload]] }
+    haskell = { open = { "stack", "repl", "--ghc-options", "-Wno-type-defaults" }, refresh = [[:reload]] },
+    elixir = { open = { "iex", "-S", "mix" }, refresh = [[recompile]] },
 }
 
 local function warnPrint(msg)
