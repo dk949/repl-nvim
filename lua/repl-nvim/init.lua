@@ -10,12 +10,25 @@ M.lang_configs = {
     haskell = { open = { "stack", "repl", "--ghc-options", "-Wno-type-defaults" }, refresh = [[:reload]] }
 }
 
+local function warnPrint(msg)
+    vim.api.nvim_echo({ { msg, "WarningMsg" } }, true, {})
+end
+
+local function errPrint(msg)
+    vim.api.nvim_echo({ { msg, "ErrorMsg" } }, true, {})
+end
+
+
 
 ---@param user_opts {lang: string?, vertical:boolean?, size:integer?}?
 function M.openRepl(user_opts)
     local opts = user_opts or {}
     local lang = opts.lang or vim.opt_local.ft:get();
     local config = M.lang_configs[lang]
+    if config == nil then
+        errPrint("'" .. lang .. "' is not a supported language")
+        return
+    end
     local fname = vim.fn.expand('%')
     ---@type string[]
     local open = vim.tbl_map(function(v) return ({ v:gsub("%%", fname) })[1] end, config.open)
