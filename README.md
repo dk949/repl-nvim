@@ -3,8 +3,8 @@
 
 A very simple REPL for Neovim.
 
-Supports Lua and Haskell out of the box, but more languages can be easily added.
-
+See the [Supported  languages](#supported-languages) for a list of currently
+available languages.
 
 ## API
 
@@ -97,4 +97,8 @@ for that language.
 
 In both, `%` will be replaced by the current file name.
 
-Lua and Haskell are currently supported out of the box.
+## Supported languages
+
+* Lua
+* Haskell
+* Elixir
